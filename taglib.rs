@@ -11,9 +11,9 @@ mod tag_c;
 
 // available tags
 pub struct Tag {
-  priv file: tag_c::TagLib_File,
-  priv tag: tag_c::TagLib_Tag,
-  priv audioProperties: tag_c::TagLib_AudioProperties
+  priv file: *tag_c::TagLib_File,
+  priv tag:  *tag_c::TagLib_Tag,
+//  priv audioProperties: tag_c::TagLib_AudioProperties
 }
 
 enum Properties {
@@ -53,62 +53,63 @@ fn set_unicode(unicode: bool) {
 }
 
 impl Tag {
-  fn new(&self, file: Path) {
+  pub fn new(file: Path) -> Tag {
     assert!(file.exists());
     unsafe {
       let filePtr = file.to_c_str().unwrap();
-
-      self.file = tag_c::taglib_file_new(filePtr);
-      assert!(tag_c::taglib_file_is_valid(self.file));
-      self.tag  = tag_c::taglib_file_tag(self.file);
+      let file = tag_c::taglib_file_new(filePtr);
+      assert!(tag_c::taglib_file_is_valid(file) != 0);
+      Tag { file: file, 
+            tag : tag_c::taglib_file_tag(file)
+      }
     }
   }
 
-  fn new_by_type(&self, file: Path, _type: Type) {
+  pub fn new_by_type(&self, file: Path, _type: Type) -> Tag{
     assert!(file.exists());
     unsafe {
       let filePtr = file.to_c_str().unwrap();
-
-      self.file = tag_c::taglib_file_new_type(filePtr, _type);
-      assert!(tag_c::taglib_file_is_valid(self.file));
-      self.tag  = tag_c::taglib_file_tag(self.file);
+      let file = tag_c::taglib_file_new_type(filePtr, _type as u32);
+      assert!(tag_c::taglib_file_is_valid(file) != 0);
+      Tag { file: file,
+            tag: tag_c::taglib_file_tag(file)
+      }
     }
   }
 
-
-  fn title(&self) -> ~str {
+  pub fn title(&self) -> ~str {
     unsafe {
       str::raw::from_c_str(tag_c::taglib_tag_title(self.tag))
     }
   }
 
-  fn artist(&self) -> ~str {
+  pub fn artist(&self) -> ~str {
     unsafe {
       str::raw::from_c_str(tag_c::taglib_tag_artist(self.tag))
     }
   }
 
-  fn comment(&self) -> ~str {
+  pub fn comment(&self) -> ~str {
     unsafe {
       str::raw::from_c_str(tag_c::taglib_tag_comment(self.tag))
     }
   }
   
-  fn genre(&self) -> ~str {
+  pub fn genre(&self) -> ~str {
     unsafe {
       str::raw::from_c_str(tag_c::taglib_tag_genre(self.tag))
     }
   }
 
-  fn year(&self) -> ~i8 {
+  pub fn year(&self) -> u32 {
     unsafe {
-      tag_c::taglib_tag_year(self.tag) as ~i8
+      tag_c::taglib_tag_year(self.tag)
     }
   }
 
-  fn track(&self) -> ~i8 {
+  pub fn track(&self) -> u32 {
     unsafe {
-      tag_c::taglib_tag_track(self.tag) as ~i8
+      tag_c::taglib_tag_track(self.tag)
     }
   }
 
