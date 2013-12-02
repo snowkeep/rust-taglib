@@ -27,14 +27,14 @@ use tag_c::TagLib_File;
 mod tag_c;
 
 
-enum AudioProperties {
+pub enum Properties {
   length,
   bitrate,
   samplerate,
   channels
 }
 
-enum Type {
+pub enum Type {
   MPEG      = 0,
   OggVorbis = 1,
   FLAC      = 2,
@@ -47,7 +47,7 @@ enum Type {
   ASF       = 9
 }
 
-enum ID3V2_Encoding {
+pub enum ID3V2_Encoding {
   Latin1  = 0,
   UTF16   = 1,
   UTF16BE = 2,
@@ -79,7 +79,7 @@ pub fn setidv3v2DefaultEncoding(coding: ID3V2_Encoding) {
 pub struct Tag {
   priv file: *tag_c::TagLib_File,
   priv tag:  *tag_c::TagLib_Tag,
-  priv audioProperties: *tag_c::TagLib_AudioProperties
+  priv properties: *tag_c::TagLib_AudioProperties
 }
 
 impl Tag {
@@ -92,7 +92,7 @@ impl Tag {
       assert!(tag_c::taglib_file_is_valid(file) != 0);
       Tag { file : file, 
             tag  : tag_c::taglib_file_tag(file),
-            audioProperties : tag_c::taglib_file_audioproperties(file)
+            properties : tag_c::taglib_file_audioproperties(file)
       }
     }
   }
@@ -106,7 +106,7 @@ impl Tag {
       assert!(tag_c::taglib_file_is_valid(file) != 0);
       Tag { file : file,
             tag  : tag_c::taglib_file_tag(file),
-            audioProperties : tag_c::taglib_file_audioproperties(file)
+            properties : tag_c::taglib_file_audioproperties(file)
       }
     }
   }
@@ -154,13 +154,13 @@ impl Tag {
   }
 
 /// Returns the requested audio property.  Valid properties are length, bitrate, samplerate, channels.
-  pub fn audioProperties(&self, prop: AudioProperties) -> i32 {
+  pub fn properties(&self, prop: Properties) -> i32 {
     unsafe {
       match prop {
-        length      => tag_c::taglib_audioproperties_length(self.audioProperties),
-        bitrate     => tag_c::taglib_audioproperties_bitrate(self.audioProperties),
-        samplerate  => tag_c::taglib_audioproperties_samplerate(self.audioProperties),
-        channels    => tag_c::taglib_audioproperties_channels(self.audioProperties),
+        length      => tag_c::taglib_audioproperties_length(self.properties),
+        bitrate     => tag_c::taglib_audioproperties_bitrate(self.properties),
+        samplerate  => tag_c::taglib_audioproperties_samplerate(self.properties),
+        channels    => tag_c::taglib_audioproperties_channels(self.properties),
       }
     }
   }
