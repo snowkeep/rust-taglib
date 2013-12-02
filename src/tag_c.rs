@@ -36,8 +36,7 @@ extern "C" {
     pub fn taglib_file_free(file: *TagLib_File);
     pub fn taglib_file_is_valid(file: *TagLib_File) -> c_int;
     pub fn taglib_file_tag(file: *TagLib_File) -> *TagLib_Tag;
-    pub fn taglib_file_audioproperties(file: *TagLib_File) ->
-     *TagLib_AudioProperties;
+    pub fn taglib_file_audioproperties(file: *TagLib_File) -> *TagLib_AudioProperties;
     pub fn taglib_file_save(file: *mut TagLib_File) -> c_int;
     pub fn taglib_tag_title(tag: *TagLib_Tag) -> *c_schar;
     pub fn taglib_tag_artist(tag: *TagLib_Tag) -> *c_schar;
