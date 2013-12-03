@@ -5,7 +5,7 @@ $(LIB)_files=$(wildcard src/*.rs)
 
 $($LIB)_so): $($(LIB)_files
 	mkdir -p build/
-	$(RUSTC) src/taglib.rs --out-dir=build
+	$(RUSTC) src/lib.rs --out-dir=lib
 
 doc: src/taglib.rs
 	rustdoc src/taglib.rs
