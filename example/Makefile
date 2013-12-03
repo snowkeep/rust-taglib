@@ -1,2 +1,2 @@
 example: example.rs
-	rustc -L ../build example.rs
+	rustc -L ../lib example.rs
