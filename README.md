@@ -9,10 +9,10 @@ API suggestions and comments on my Rust code are welcome.
 rust-taglib is under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 tag\_c.h was generated with
-[https://github.com/crabtw/rust-bindgen](rust-bindgen) (and edited to work)
+[rust-bindgen](https://github.com/crabtw/rust-bindgen) (and edited to work)
 from /usr/include/taglib/tag\_c.h, which is under the
-[http://www.gnu.org/licenses/lgpl.html](GNU Lesser General Public License)
-(LGPL) and [http://www.mozilla.org/MPL/MPL-1.1.html](Mozilla Public License
+[GNU Lesser General Public License](http://www.gnu.org/licenses/lgpl.html)
+(LGPL) and [Mozilla Public License](http://www.mozilla.org/MPL/MPL-1.1.html)
 (MPL).
 
 
